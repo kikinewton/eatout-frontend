@@ -1,14 +1,16 @@
 import "./App.css";
-import { NavBar, NavBarBrand } from "reactstrap";
+import { Navbar, NavbarBrand } from "reactstrap";
+import Menu from "./components/MenuComponent"
 
 function App() {
   return (
-    <div className="App">
-      <NavBar dark color="primary">
+    <div>
+      <Navbar dark color="primary">
         <div className="container">
-          <NavBarBrand href="/"> Ristorante Confusion</NavBarBrand>
+          <NavbarBrand href="/"> Ristorante Confusion</NavbarBrand>
         </div>
-      </NavBar>
+      </Navbar>
+      <Menu/>
     </div>
   );
 }
