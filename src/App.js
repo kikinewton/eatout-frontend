@@ -1,8 +1,14 @@
 import "./App.css";
 import { Navbar, NavbarBrand } from "reactstrap";
 import Menu from "./components/MenuComponent"
+import { useState } from "react";
+
+import {DISHES} from './shared/dishes';
+
 
 function App() {
+    // eslint-disable-next-line no-unused-vars
+    const [dishes, setDishes] = useState(DISHES);
   return (
     <div>
       <Navbar dark color="primary">
@@ -10,7 +16,7 @@ function App() {
           <NavbarBrand href="/"> Ristorante Confusion</NavbarBrand>
         </div>
       </Navbar>
-      <Menu/>
+      <Menu dishes={dishes}/>
     </div>
   );
 }
