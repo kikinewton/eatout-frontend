@@ -27,28 +27,27 @@ const DishDetail = (props) => {
     }
   };
 
-  const renderComment = (comments) => {
-      if (comments != null) {
-        const dcom = comments.map((comment) =>  comment['comment']);
-        console.log('dcom:', dcom);
-      }
-    comments = props.selectedDish;
-    // const dcom = Object.keys(comments)
-    
-    console.log("comment:", comments);
+  const renderComment = (dish) => {
+    let { comments } = dish || {};
+
+    // console.log("comment:", comments);
     if (comments instanceof Array) {
-      comments.map((comment) => {
-        return (
-          <div>
-            <ul class="list-unstyled">
-              <li>{comment.comment}</li>
-              <li>
-                {comment.author} {comment.date}
-              </li>
-            </ul>
-          </div>
-        );
-      });
+      //   console.log("comment:", comments);
+
+      <React.Fragment>
+        {(comments).map((comment) => {
+          return (
+            <div key={comment.id}>
+              <ul className="list-unstyled">
+                <li>{comment.comment}</li>
+                <li>
+                  {comment.author} {comment.date}
+                </li>
+              </ul>
+            </div>
+          );
+        })}
+      </React.Fragment>;
     } else {
       <div></div>;
     }
@@ -63,7 +62,7 @@ const DishDetail = (props) => {
         <div>
           <h4>Comments</h4>
         </div>
-        <div>{renderComment(selectedDish)}</div>
+        <div>{renderComment(props.selectedDish)}</div>
       </div>
     </div>
   );
