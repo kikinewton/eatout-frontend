@@ -41,7 +41,7 @@ const DishDetail = (props) => {
     // comments = props.selectedDish;
     // const dcom = Object.keys(comments)
     
-    // console.log("my comment:", comments);
+    // console.log("my comment:", comments list);
     if (comments instanceof Array) {
       return (
         <Fragment>
