@@ -1,22 +1,11 @@
 import "./App.css";
-import { Navbar, NavbarBrand } from "reactstrap";
-import Menu from "./components/MenuComponent"
-import { useState } from "react";
-
-import {DISHES} from './shared/dishes';
+import Main from "./components/MainComponent";
 
 
 function App() {
-    // eslint-disable-next-line no-unused-vars
-    const [dishes, setDishes] = useState(DISHES);
   return (
     <div>
-      <Navbar dark color="primary">
-        <div className="container">
-          <NavbarBrand href="/"> Ristorante Confusion</NavbarBrand>
-        </div>
-      </Navbar>
-      <Menu dishes={dishes}/>
+      <Main/>
     </div>
   );
 }
