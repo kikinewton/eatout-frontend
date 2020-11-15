@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { Fragment } from "react";
 import { Card, CardTitle, CardBody, CardImg, CardText } from "reactstrap";
 
 const DishDetail = (props) => {
   // eslint-disable-next-line no-unused-vars
-  const [selectedDish, setSelectedDish] = useState(null);
+
+  //const [selectedDish, setSelectedDish] = useState(null);
 
   const renderSelectDish = (dish) => {
-    dish = props.selectedDish;
-
     if (dish != null) {
       return (
         <Card key={dish.id}>
@@ -30,24 +29,23 @@ const DishDetail = (props) => {
   const renderComment = (dish) => {
     let { comments } = dish || {};
 
-    // console.log("comment:", comments);
     if (comments instanceof Array) {
-      //   console.log("comment:", comments);
-
-      <React.Fragment>
-        {(comments).map((comment) => {
-          return (
-            <div key={comment.id}>
-              <ul className="list-unstyled">
-                <li>{comment.comment}</li>
-                <li>
-                  {comment.author} {comment.date}
-                </li>
-              </ul>
-            </div>
-          );
-        })}
-      </React.Fragment>;
+      return (
+        <Fragment>
+          {(comments || []).map((comment) => {
+            return (
+              <div key={comment.id} className="comment-container">
+                <ul className="list-unstyled">
+                  <li><p>{comment.comment}</p></li>
+                  <li>
+                    <p>{comment.author} {comment.date}</p>
+                  </li>
+                </ul>
+              </div>
+            );
+          })}
+        </Fragment>
+      );
     } else {
       <div></div>;
     }
@@ -55,15 +53,24 @@ const DishDetail = (props) => {
 
   return (
     <div className="container">
-      <div className="col-12 col-md-5 m-1">
-        {renderSelectDish(selectedDish)}
-      </div>
-      <div className="col-12 col-md-5 m-1">
-        <div>
-          <h4>Comments</h4>
+      <span className="c">
+        <div className="col-12 col-md-5 m-1">
+          {renderSelectDish(props.selectedDish)}
         </div>
-        <div>{renderComment(props.selectedDish)}</div>
-      </div>
+      </span>
+      <span className='c'>
+        <div className="col-12 col-md-5 m-1">
+          <div>
+            <h4>Comments</h4>
+          </div>
+          <div>{renderComment(props.selectedDish)}</div>
+        </div>
+      </span>
+      <style jsx>{`
+        span.c {
+            display:flex; flex-direction:row;
+        }
+      `}</style>
     </div>
   );
 };
