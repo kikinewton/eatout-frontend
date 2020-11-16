@@ -5,7 +5,6 @@ const DishDetail = (props) => {
   // eslint-disable-next-line no-unused-vars
 
   //const [selectedDish, setSelectedDish] = useState(null);
-
   const renderSelectDish = (dish) => {
     if (dish != null) {
       return (

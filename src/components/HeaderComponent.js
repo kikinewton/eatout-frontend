@@ -1,12 +1,45 @@
-import { Navbar, NavbarBrand, Jumbotron } from "reactstrap";
-import React from "react";
+import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem,Jumbotron } from "reactstrap";
+import {NavLink} from "react-router-dom"
+import React, {useState} from "react";
 
 const Header = () => {
+
+    const [isNavOpen, setIsNavOpen] = useState(false);
+    function toggleNav() {
+        console.log("whats up")
+        setIsNavOpen(!isNavOpen)
+    }
+
   return (
     <React.Fragment>
-      <Navbar dark>
+      <Navbar dark expand="md">
         <div className="container">
-          <NavbarBrand href="/">Ristorant ConFusion</NavbarBrand>
+            <NavbarToggler onClick={toggleNav}/>
+          <NavbarBrand className="mr-auto" href="/"><img src="assets/images/logo.png" height="30" width="40" alt="Ristorant ConFusion"/></NavbarBrand>
+          <Collapse isOpen={isNavOpen} navbar>
+          <Nav navbar>
+              <NavItem>
+                  <NavLink className="nav-link" to="/home">
+                      <span className="fa fa-home fa-lg"></span> Home
+                  </NavLink>
+              </NavItem>
+              <NavItem>
+                  <NavLink className="nav-link" to="/aboutus">
+                      <span className="fa fa-info fa-lg"></span> About us
+                  </NavLink>
+              </NavItem>
+              <NavItem>
+                  <NavLink className="nav-link" to="/menu">
+                      <span className="fa fa-list fa-lg"></span> Menu
+                  </NavLink>
+              </NavItem>
+              <NavItem>
+                  <NavLink className="nav-link" to="/contactus">
+                      <span className="fa fa-address-card fa-lg"></span> Contact us
+                  </NavLink>
+              </NavItem>
+          </Nav>
+          </Collapse>
         </div>
       </Navbar>
       <Jumbotron>
@@ -14,7 +47,11 @@ const Header = () => {
           <div className="row row-header">
             <div className="col-12 col-sm-6">
               <h1>Ristorant ConFusion</h1>
-              <p>Taste you cant resist</p>
+              <p>
+                We take inspiration from the World's best cuisines, and create a
+                unique fusion experience. Our lipsmacking creations will tickle
+                your culinary senses!
+              </p>
             </div>
           </div>
         </div>
@@ -22,6 +59,5 @@ const Header = () => {
     </React.Fragment>
   );
 };
-
 
 export default Header;
