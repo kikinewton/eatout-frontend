@@ -11,6 +11,7 @@ import { PROMOTIONS } from "../shared/promotions";
 import { LEADERS } from "../shared/leaders";
 
 import Contact from "./ContactComponent";
+import DishDetail from "./DishDetailComponent";
 
 function Main() {
   // eslint-disable-next-line no-unused-vars
@@ -22,11 +23,28 @@ function Main() {
   // eslint-disable-next-line no-unused-vars
   const [promotions, setPromotions] = useState(PROMOTIONS);
 
+  const DishWithId = ({ match }) => {
+      
+    return (
+      <DishDetail key={dishes.id}
+        dish={
+          dishes.filter(
+            (dish) => dish.id === parseInt(match.params.dishId, 10)
+          )[0]
+        }
+        comment={
+          comments.filter(
+            (comment) => comment.dishId === parseInt(match.params.dishId, 10)
+          )
+        }
+      />
+    );
+  };
+
   const HomePage = () => {
-      console.log("dishes", dishes);
+    console.log("dishes", dishes);
     return (
       <Home
-      
         dish={dishes.filter((dish) => dish.featured)[0]}
         promotion={promotions.filter((promo) => promo.featured)[0]}
         leader={leaders.filter((leader) => leader.featured)[0]}
@@ -39,6 +57,7 @@ function Main() {
       <Switch>
         <Route path="/home" component={HomePage} />
         <Route exact path="/menu" component={() => <Menu dishes={dishes} />} />
+        <Route path="/menu/:dishId" component={DishWithId} />
         <Route exact path="/contactus" component={Contact} />
         <Redirect to="/home" />
       </Switch>
