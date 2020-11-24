@@ -4,6 +4,7 @@ import { useState } from "react";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
+import About from "./AboutComponent";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { DISHES } from "../shared/dishes";
 import { COMMENTS } from "../shared/comments";
@@ -24,19 +25,17 @@ function Main() {
   const [promotions, setPromotions] = useState(PROMOTIONS);
 
   const DishWithId = ({ match }) => {
-      
     return (
-      <DishDetail key={dishes.id}
+      <DishDetail
+        key={dishes.id}
         dish={
           dishes.filter(
             (dish) => dish.id === parseInt(match.params.dishId, 10)
           )[0]
         }
-        comment={
-          comments.filter(
-            (comment) => comment.dishId === parseInt(match.params.dishId, 10)
-          )
-        }
+        comment={comments.filter(
+          (comment) => comment.dishId === parseInt(match.params.dishId, 10)
+        )}
       />
     );
   };
@@ -56,6 +55,11 @@ function Main() {
       <Header />
       <Switch>
         <Route path="/home" component={HomePage} />
+        <Route
+          exact
+          path="/about"
+          component={() => <About leaders={leaders} />}
+        />
         <Route exact path="/menu" component={() => <Menu dishes={dishes} />} />
         <Route path="/menu/:dishId" component={DishWithId} />
         <Route exact path="/contactus" component={Contact} />
