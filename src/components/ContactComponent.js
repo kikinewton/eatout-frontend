@@ -8,6 +8,7 @@ import {
   Col,
   Input,
   Button,
+  FormFeedback,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -23,10 +24,17 @@ class Contact extends React.Component {
       agree: false,
       contactType: "Tel.",
       message: "",
+      touched: {
+        firstname: false,
+        lastname: false,
+        email: false,
+        telnum: false,
+      },
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   handleInputChange(event) {
@@ -39,12 +47,60 @@ class Contact extends React.Component {
     });
   }
 
+  handleBlur = (field) => (event) => {
+    this.setState({
+      touched: { ...this.state.touched, [field]: true }
+    });
+  };
+
+  validate(firstname, lastname, email, telnum) {
+    const errors = {
+      firstname: "",
+      lastname: "",
+      email: "",
+      telnum: "",
+    };
+
+    if (this.state.touched.firstname && firstname.length < 3) {
+      errors.firstname = "First name must be at least 3 characters";
+    } else if (this.state.touched.firstname && firstname.length > 12) {
+      errors.firstname = "First name must be less than 12 characters";
+    }
+
+    if (this.state.touched.lastname && lastname.length < 3) {
+      errors.lastname = "Last name must be at least 3 characters";
+    } else if (this.state.touched.lastname && lastname.length > 12) {
+      errors.lastname = "Last name must be less than 12 characters";
+    }
+
+    if (
+      this.state.touched.email &&
+      email.split("").filter((x) => x === "@").length !== 1
+    ) {
+      errors.email = "Email should contain a @";
+    }
+
+    const reg = /^\d+$/;
+    if (this.state.touched.telnum && !reg.test(telnum)) {
+      errors.telnum = "Tel. number should be only numbers";
+    }
+
+    return errors;
+  }
+
   handleSubmit(event) {
     console.log("Current State is: " + JSON.stringify(this.state));
     alert("Current State is: " + JSON.stringify(this.state));
     event.preventDefault();
   }
   render() {
+    const errors = this.validate(
+      this.state.firstname,
+      this.state.lastname,
+      this.state.email,
+      this.state.telnum
+    );
+    console.log("Errors", errors);
     return (
       <div className="container">
         <div className="row">
@@ -112,18 +168,22 @@ class Contact extends React.Component {
           <div className="col-12 col-md-9">
             <Form onSubmit={this.handleSubmit}>
               <FormGroup row>
-                <Label htmlFor="firstName" md={2}>
+                <Label htmlFor="firstname" md={2}>
                   First Name
                 </Label>
-                <Col>
+                <Col md={10}>
                   <Input
                     type="text"
-                    id="firstName"
-                    name="firstName"
+                    id="firstname"
+                    name="firstname"
                     placeholder="First Name"
-                    value={this.state.firstName}
+                    value={this.state.firstname}
+                    valid={errors.firstname === ""}
+                    invalid={errors.firstname !== ""}
+                    onBlur={this.handleBlur("firstname")}
                     onChange={this.handleInputChange}
                   />
+                  <FormFeedback>{errors.firstname}</FormFeedback>
                 </Col>
               </FormGroup>
 
@@ -134,12 +194,16 @@ class Contact extends React.Component {
                 <Col>
                   <Input
                     type="text"
-                    id="lastName"
-                    name="lastName"
+                    id="lastname"
+                    name="lastname"
                     placeholder="Last Name"
-                    value={this.state.lastName}
+                    value={this.state.lastname}
+                    valid={errors.lastname === ''}
+                    invalid={errors.lastname !== ''}
+                    onBlur={this.handleBlur("lastname")}
                     onChange={this.handleInputChange}
                   />
+                  <FormFeedback>{errors.lastname}</FormFeedback>
                 </Col>
               </FormGroup>
 
@@ -150,12 +214,16 @@ class Contact extends React.Component {
                 <Col>
                   <Input
                     type="text"
-                    id="telNumber"
-                    name="telNumber"
+                    id="telnum"
+                    name="telnum"
                     placeholder="TelNumber"
-                    value={this.state.telNumber}
+                    value={this.state.telnum}
+                    valid={errors.email === ''}
+                    invalid={errors.email !== ''}
+                    onBlur={this.handleBlur("telnum")}
                     onChange={this.handleInputChange}
                   />
+                  <FormFeedback>{errors.telnum}</FormFeedback>
                 </Col>
               </FormGroup>
 
@@ -170,9 +238,13 @@ class Contact extends React.Component {
                     name="email"
                     placeholder="Email"
                     value={this.state.email}
+                    valid={errors.email === ''}
+                    invalid={errors.email !== ''}
+                    onBlur={this.handleBlur("email")}
                     onChange={this.handleInputChange}
                   />
                 </Col>
+                <FormFeedback>{errors.email}</FormFeedback>
               </FormGroup>
 
               <FormGroup row>
