@@ -18,7 +18,7 @@ import {
 import { NavLink } from "react-router-dom";
 import React, { useState } from "react";
 
-const Header1 = () => {
+const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   function toggleModal() {
@@ -133,4 +133,4 @@ const Header1 = () => {
   );
 };
 
-export default Header1;
+export default Header;

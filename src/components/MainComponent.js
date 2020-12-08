@@ -16,6 +16,8 @@ function Main() {
   const comments = useSelector((state) => state.comments);
   const promotions = useSelector((state) => state.promotions);
 
+  console.log("contact component", Contact)
+
   const DishWithId = ({ match }) => {
     return (
       <DishDetail
