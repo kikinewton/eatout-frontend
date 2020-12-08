@@ -1,28 +1,20 @@
 // import "./App.css";
 import Menu from "./MenuComponent";
-import { useState } from "react";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { DISHES } from "../shared/dishes";
-import { COMMENTS } from "../shared/comments";
-import { PROMOTIONS } from "../shared/promotions";
-import { LEADERS } from "../shared/leaders";
+import { useSelector } from "react-redux";
 
 import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
 
 function Main() {
-  // eslint-disable-next-line no-unused-vars
-  const [dishes, setDishes] = useState(DISHES);
-  // eslint-disable-next-line no-unused-vars
-  const [leaders, setLeaders] = useState(LEADERS);
-  // eslint-disable-next-line no-unused-vars
-  const [comments, setComments] = useState(COMMENTS);
-  // eslint-disable-next-line no-unused-vars
-  const [promotions, setPromotions] = useState(PROMOTIONS);
+  const dishes = useSelector((state) => state.dishes);
+  const leaders = useSelector((state) => state.leaders);
+  const comments = useSelector((state) => state.comments);
+  const promotions = useSelector((state) => state.promotions);
 
   const DishWithId = ({ match }) => {
     return (
@@ -41,7 +33,7 @@ function Main() {
   };
 
   const HomePage = () => {
-    console.log("dishes", dishes);
+    // console.log("dishes", dishes);
     return (
       <Home
         dish={dishes.filter((dish) => dish.featured)[0]}

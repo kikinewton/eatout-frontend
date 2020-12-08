@@ -100,7 +100,6 @@ class Contact extends React.Component {
       this.state.email,
       this.state.telnum
     );
-    console.log("Errors", errors);
     return (
       <div className="container">
         <div className="row">
