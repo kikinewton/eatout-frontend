@@ -30,7 +30,7 @@ function Main() {
         comment={comments.filter(
           (comment) => comment.dishId === parseInt(match.params.dishId, 10)
         )}
-      />
+      /> 
     );
   };
 

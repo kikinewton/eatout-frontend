@@ -10,8 +10,8 @@ import {
 } from "reactstrap";
 
 const Home = (props) => {
-    
   function RenderCard({ item }) {
+    // console.log("item", item);
     return (
       <Card>
         <CardImg src={item.image} alt={item.name} />
