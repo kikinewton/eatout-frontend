@@ -135,7 +135,6 @@ const renderSelectDish = (dish) => {
 };
 
 const renderComment = (comments) => {
-  // console.log("comm", comments);
   if (comments !== null) {
     const commentList = comments.map((comment) => {
       return (

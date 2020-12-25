@@ -5,8 +5,7 @@ import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { addComment } from "../redux/ActionCreator";
+import { useSelector } from "react-redux";
 
 import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
@@ -17,7 +16,6 @@ function Main() {
   const comments = useSelector((state) => state.comments);
   const promotions = useSelector((state) => state.promotions);
 
-  const dispatch =  useDispatch();
 
   console.log("contact component", Contact);
 
@@ -33,6 +31,7 @@ function Main() {
         comment={comments.filter(
           (comment) => comment.dishId === parseInt(match.params.dishId, 10)
         )}
+
       />
     );
   };
