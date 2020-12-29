@@ -5,10 +5,10 @@ import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
+import { addComment } from "../redux/ActionCreator";
 
 function Main() {
   const dishes = useSelector((state) => state.dishes);
@@ -16,8 +16,11 @@ function Main() {
   const comments = useSelector((state) => state.comments);
   const promotions = useSelector((state) => state.promotions);
 
+  const dispatch = useDispatch();
 
-  console.log("contact component", Contact);
+  const handleAddComment = (dishId, rating, author, comment) => {
+    dispatch(addComment(dishId, rating, author, comment));
+  };
 
   const DishWithId = ({ match }) => {
     return (
@@ -28,16 +31,15 @@ function Main() {
             (dish) => dish.id === parseInt(match.params.dishId, 10)
           )[0]
         }
-        comment={comments.filter(
+        comments={comments.filter(
           (comment) => comment.dishId === parseInt(match.params.dishId, 10)
         )}
-
+        addComment={handleAddComment}
       />
     );
   };
 
   const HomePage = () => {
-    // console.log("dishes", dishes);
     return (
       <Home
         dish={dishes.filter((dish) => dish.featured)[0]}

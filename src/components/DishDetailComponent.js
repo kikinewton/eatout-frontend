@@ -19,18 +19,24 @@ import {
 import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors } from "react-redux-form";
 
-const CommentForm = () => {
-  const [modal, setModal] = useState(false);
-  const toggle = () => setModal(!modal);
+const CommentForm = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   const maxLength = (len) => (val) => !val || val.length <= len;
   const minLength = (len) => (val) => val && val.length >= len;
 
   const handleSubmit = (values) => {
-    toggle()
-    console.log("Current State is: " + JSON.stringify(values));
+    toggleModal();
+    console.log("values :", values);
+    props.addComment(
+      props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
     alert("Current State is: " + JSON.stringify(values));
-  }
+  };
 
   return (
     <div>
@@ -38,12 +44,12 @@ const CommentForm = () => {
         outline
         color="white"
         class="btn btn-outline-dark"
-        onClick={toggle}
+        onClick={toggleModal}
       >
         <span className="fa fa-pencil fa-lg"></span> Send Comment
       </Button>
-      <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader>Submit Comment</ModalHeader>
+      <Modal isOpen={isModalOpen} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Submit Comment</ModalHeader>
         <ModalBody>
           <LocalForm onSubmit={(values) => handleSubmit(values)}>
             <Row className="form-group">
@@ -72,43 +78,45 @@ const CommentForm = () => {
                   id="author"
                   placeholder="Your name"
                   className="form-control"
-                  validators ={{
+                  validators={{
                     minLength: minLength(3),
                     maxLength: maxLength(15),
                   }}
                 />
                 <Errors
-                className="text-danger"
-                model=".author"
-                show="touched"
-                messages={{
-                  minLength:"Characters must be more than 2",
-                  maxLength:"Characters must be less than 15",
-                }}
+                  className="text-danger"
+                  model=".author"
+                  show="touched"
+                  messages={{
+                    minLength: "Characters must be more than 2",
+                    maxLength: "Characters must be less than 15",
+                  }}
                 />
               </Col>
             </Row>
 
             <Row className="form-group">
               <Col>
-              <Label htmlFor="comment" id="comment">Comment</Label>
-              <Control.textarea
-              model=".comment"
-              name="comment"
-              id="comment"
-              placeholder="Your comment"
-              className="form-control"
-              rows="6"
-              />
+                <Label htmlFor="comment" id="comment">
+                  Comment
+                </Label>
+                <Control.textarea
+                  model=".comment"
+                  name="comment"
+                  id="comment"
+                  placeholder="Your comment"
+                  className="form-control"
+                  rows="6"
+                />
               </Col>
             </Row>
+
+            <Button color="primary" className="btn btn-primary">
+              Submit
+            </Button>
+
           </LocalForm>
         </ModalBody>
-        <ModalFooter>
-          <Button color="primary" className="btn btn-primary">
-            Submit
-          </Button>
-        </ModalFooter>
       </Modal>
     </div>
   );
@@ -134,7 +142,7 @@ const renderSelectDish = (dish) => {
   }
 };
 
-const renderComment = (comments) => {
+const RenderComment = ({ comments, addComment, dishId }) => {
   if (comments !== null) {
     const commentList = comments.map((comment) => {
       return (
@@ -157,7 +165,12 @@ const renderComment = (comments) => {
         </div>
       );
     });
-    return commentList;
+    return (
+      <div>
+        {commentList}
+        <CommentForm addComment={addComment} dishId={dishId} />
+      </div>
+    );
   }
 };
 
@@ -185,8 +198,11 @@ const DishDetail = (props) => {
             <div>
               <h4>Comments</h4>
             </div>
-            <div>{renderComment(props.comment)}</div>
-            <CommentForm />
+            <RenderComment
+              comments={props.comments}
+              addComment={props.addComment}
+              dishId={props.dish.id}
+            />
           </div>
         </div>
       </div>
