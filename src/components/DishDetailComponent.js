@@ -18,6 +18,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors } from "react-redux-form";
+import { Loading } from "./LoadingComponent";
 
 const CommentForm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -114,7 +115,6 @@ const CommentForm = (props) => {
             <Button color="primary" className="btn btn-primary">
               Submit
             </Button>
-
           </LocalForm>
         </ModalBody>
       </Modal>
@@ -175,7 +175,23 @@ const RenderComment = ({ comments, addComment, dishId }) => {
 };
 
 const DishDetail = (props) => {
-  if (props.dish != null) {
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  } else if (props.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h3>{props.errMess}</h3>
+        </div>
+      </div>
+    );
+  } else if (props.dish != null) {
     return (
       <div className="container">
         <div className="row">
@@ -207,6 +223,11 @@ const DishDetail = (props) => {
         </div>
       </div>
     );
+  }
+  else {
+    return (
+      <div></div>
+    )
   }
 };
 

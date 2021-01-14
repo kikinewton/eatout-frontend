@@ -8,7 +8,8 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
-import { addComment } from "../redux/ActionCreator";
+import { addComment, fetchDishes } from "../redux/ActionCreator";
+import { useEffect } from "react";
 
 function Main() {
   const dishes = useSelector((state) => state.dishes);
@@ -22,12 +23,22 @@ function Main() {
     dispatch(addComment(dishId, rating, author, comment));
   };
 
+  const handleFetchDishes = () => (dispatch) => {
+    dispatch(fetchDishes());
+    console.log("finished")
+  };
+
+  useEffect(() => {
+    console.log("gfdsdfghjgf")
+    handleFetchDishes();
+  }, []);
+
   const DishWithId = ({ match }) => {
     return (
       <DishDetail
-        key={dishes.id}
+        key={dishes.dishes.id}
         dish={
-          dishes.filter(
+          dishes.dishes.filter(
             (dish) => dish.id === parseInt(match.params.dishId, 10)
           )[0]
         }
@@ -35,14 +46,20 @@ function Main() {
           (comment) => comment.dishId === parseInt(match.params.dishId, 10)
         )}
         addComment={handleAddComment}
+        isLoading={dishes.isLoading}
+        errMess={dishes.errMess}
       />
     );
   };
 
   const HomePage = () => {
+    console.log("dishes homepage", dishes)
+
     return (
       <Home
-        dish={dishes.filter((dish) => dish.featured)[0]}
+        dish={dishes.dishes.filter((dish) => dish.featured)[0]}
+        dishesLoading={dishes.isLoading}
+        dishesErrMess={dishes.errMessage}
         promotion={promotions.filter((promo) => promo.featured)[0]}
         leader={leaders.filter((leader) => leader.featured)[0]}
       />
