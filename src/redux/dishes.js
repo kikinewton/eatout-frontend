@@ -11,6 +11,7 @@ export const Dishes = (state = initialState, action) => {
     case ActionTypes.DISHES_LOADING:
       return { ...state, isLoading: true, errMessage: null, dishes: [] };
     case ActionTypes.ADD_DISHES:
+      console.log('called the ADD_DISHES action creator')
       return {
         ...state,
         isLoading: false,

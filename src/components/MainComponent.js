@@ -29,7 +29,6 @@ function Main() {
   };
 
   useEffect(() => {
-    console.log("gfdsdfghjgf")
     handleFetchDishes();
   }, []);
 

@@ -14,7 +14,9 @@ export const addComment = (dishId, rating, author, comment) => ({
 export const fetchDishes = () => (dispatch) => {
   dispatch(dishesLoading(true));
   setTimeout(() => {
+    console.log("About to call addDishes")
     dispatch(addDishes(DISHES));
+    console.log("Added dishes")
   }, 200);
 };
 
