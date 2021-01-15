@@ -23,9 +23,8 @@ function Main() {
     dispatch(addComment(dishId, rating, author, comment));
   };
 
-  const handleFetchDishes = () => (dispatch) => {
+  const handleFetchDishes = () => {
     dispatch(fetchDishes());
-    console.log("finished")
   };
 
   useEffect(() => {
