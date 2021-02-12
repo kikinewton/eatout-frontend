@@ -1,18 +1,14 @@
 import React from "react";
-import {
-  BreadcrumbItem,
-  Breadcrumb,
-  Label,
-  Col,
-  Row,
-} from "reactstrap";
+import { BreadcrumbItem, Breadcrumb, Label, Col, Row } from "reactstrap";
 import { Link } from "react-router-dom";
-import { LocalForm, Control, Errors } from "react-redux-form";
+import { Form, Control, Errors, actions } from "react-redux-form";
 
-function Contact() {
+function Contact(props) {
+  // console.log("props", props);
   const handleSubmit = (values) => {
     console.log("Current State is: " + JSON.stringify(values));
     alert("Current State is: " + JSON.stringify(values));
+    props.resetFeedBackForm()
   };
 
   const required = (val) => val && val.length;
@@ -87,7 +83,7 @@ function Contact() {
           <h3>Send your Feedback</h3>
         </div>
         <div className="col-12 col-md-9">
-          <LocalForm onSubmit={(values) => handleSubmit(values)}>
+          <Form model="feedback" onSubmit={(values) => handleSubmit(values)}>
             <Row className="form-group">
               <Label htmlFor="firstname" md={2}>
                 First Name
@@ -204,7 +200,7 @@ function Contact() {
                 />
               </Col>
             </Row>
-          </LocalForm>
+          </Form>
         </div>
       </div>
     </div>

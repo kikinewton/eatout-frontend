@@ -8,14 +8,22 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
-import { addComment, fetchDishes } from "../redux/ActionCreator";
+import { addComment, fetchDishes,fetchComments, fetchPromos } from "../redux/ActionCreator";
 import { useEffect } from "react";
+import { actions } from "react-redux-form";
 
 function Main() {
   const dishes = useSelector((state) => state.dishes);
   const leaders = useSelector((state) => state.leaders);
   const comments = useSelector((state) => state.comments);
   const promotions = useSelector((state) => state.promotions);
+
+  console.log("main promo", promotions);
+  console.log("main comments", comments);
+  console.log("main dishes", dishes);
+
+
+
 
   const dispatch = useDispatch();
 
@@ -27,9 +35,23 @@ function Main() {
     dispatch(fetchDishes());
   };
 
+  const handleFetchComments = () => {
+    dispatch(fetchComments())
+  }
+
+  const handleFetchPromos = () => {
+    dispatch(fetchPromos())
+  }
+
+  const resetFeedBackForm = () => {
+    dispatch(actions.reset("feedback"));
+  };
+
   useEffect(() => {
     handleFetchDishes();
-  }, []);
+    handleFetchPromos();
+    handleFetchComments();
+  }, [dispatch]);
 
   const DishWithId = ({ match }) => {
     return (
@@ -40,9 +62,10 @@ function Main() {
             (dish) => dish.id === parseInt(match.params.dishId, 10)
           )[0]
         }
-        comments={comments.filter(
+        comments={comments.comments.filter(
           (comment) => comment.dishId === parseInt(match.params.dishId, 10)
         )}
+        commentsErrorMessage={comments.errMess}
         addComment={handleAddComment}
         isLoading={dishes.isLoading}
         errMess={dishes.errMess}
@@ -51,14 +74,15 @@ function Main() {
   };
 
   const HomePage = () => {
-    console.log("dishes homepage", dishes)
 
     return (
       <Home
         dish={dishes.dishes.filter((dish) => dish.featured)[0]}
         dishesLoading={dishes.isLoading}
         dishesErrMess={dishes.errMessage}
-        promotion={promotions.filter((promo) => promo.featured)[0]}
+        promotion={promotions.promotions.filter((promo) => promo.featured)[0]}
+        promosLoading={promotions.isLoading}
+        promosErrMess={promotions.errMessage}
         leader={leaders.filter((leader) => leader.featured)[0]}
       />
     );
@@ -75,7 +99,11 @@ function Main() {
         />
         <Route exact path="/menu" component={() => <Menu dishes={dishes} />} />
         <Route path="/menu/:dishId" component={DishWithId} />
-        <Route exact path="/contactus" component={Contact} />
+        <Route
+          exact
+          path="/contactus"
+          component={() => <Contact resetFeedBackForm={resetFeedBackForm} />}
+        />
         <Redirect to="/home" />
       </Switch>
       <Footer />

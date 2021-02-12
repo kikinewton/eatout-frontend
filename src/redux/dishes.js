@@ -6,7 +6,7 @@ const initialState = {
   errMessage: null,
   dishes: [],
 };
-export const Dishes = (state = initialState, action) => {
+export const Dishes = (action, state = initialState) => {
   switch (action.type) {
     case ActionTypes.DISHES_LOADING:
       return { ...state, isLoading: true, errMessage: null, dishes: [] };

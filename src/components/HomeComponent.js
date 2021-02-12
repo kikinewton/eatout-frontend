@@ -9,19 +9,20 @@ import {
   CardSubtitle,
 } from "reactstrap";
 import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
 const Home = (props) => {
   console.log("props home", props);
   function RenderCard({ item, isLoading, errMess }) {
-    console.log("item, isLoading, errMess", { item , isLoading, errMess });
+    // console.log("item, isLoading, errMess", { item , isLoading, errMess });
     if (isLoading) {
       return <Loading />;
     } else if (errMess) {
       return <h3>{errMess}</h3>;
-    } else
+    } else {
       return (
         <Card>
-          <CardImg src={item.image} alt={item.name} />
+          <CardImg src={baseUrl + item.image} alt={item.name} />
           <CardBody>
             <CardTitle>{item.name}</CardTitle>
             {item.designation ? (
@@ -31,6 +32,7 @@ const Home = (props) => {
           </CardBody>
         </Card>
       );
+    }
   }
 
   return (

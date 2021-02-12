@@ -1,10 +1,12 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+import thunk from "redux-thunk";
+import logger from "redux-logger";
 import { Comments } from "./comments";
 import { Dishes } from "./dishes";
 import { Leaders } from "./leaders";
 import { Promotions } from "./promotions";
+import { createForms } from "react-redux-form";
+import { InitialFeedback } from "./form";
 
 export const configureStore = () => {
   const store = createStore(
@@ -13,6 +15,9 @@ export const configureStore = () => {
       comments: Comments,
       promotions: Promotions,
       leaders: Leaders,
+      ...createForms({
+        feedback: InitialFeedback,
+      }),
     }),
     applyMiddleware(thunk, logger)
   );
