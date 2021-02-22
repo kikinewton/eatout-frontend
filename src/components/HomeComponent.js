@@ -12,9 +12,11 @@ import { Loading } from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
 
 const Home = (props) => {
+
   console.log("props home", props);
+
   function RenderCard({ item, isLoading, errMess }) {
-    // console.log("item, isLoading, errMess", { item , isLoading, errMess });
+    console.log("item, isLoading, errMess", { item , isLoading, errMess });
     if (isLoading) {
       return <Loading />;
     } else if (errMess) {
@@ -46,10 +48,15 @@ const Home = (props) => {
           />
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={props.promotion} />
+          <RenderCard item={props.promotion} 
+          isLoading={props.promosLoading}
+          errMess={props.promosErrMess}/>
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={props.leader} />
+          <RenderCard item={props.leader}
+          isLoading={props.leaderLoading} 
+          errMess={props.leaderErrMess}
+          />
         </div>
       </div>
     </div>

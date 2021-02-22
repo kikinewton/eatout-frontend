@@ -1,10 +1,10 @@
 import * as ActionTypes from "./ActionTypes";
 
-export const Comments = (
-  state = {
-    errMessage: null,
+const initialState = {
+  errMessage: null,
     comments: [],
-  },
+}
+export const Comments = ( state = initialState,
   action
 ) => {
   switch (action.type) {

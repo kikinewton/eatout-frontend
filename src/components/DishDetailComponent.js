@@ -11,7 +11,6 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Label,
   Row,
   Col,
@@ -19,6 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors } from "react-redux-form";
 import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
 const CommentForm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -122,11 +122,12 @@ const CommentForm = (props) => {
   );
 };
 
-const renderSelectDish = (dish) => {
+const RenderSelectDish = (dish) => {
+  console.log("dish from renderSelectDish", {dish});
   if (dish != null) {
     return (
       <Card key={dish.id}>
-        <CardImg top src={dish.image} />
+        <CardImg top src={baseUrl + dish.image} />
         <CardBody>
           <CardTitle>
             <b>{dish.name}</b>
@@ -136,9 +137,11 @@ const renderSelectDish = (dish) => {
       </Card>
     );
   } else {
-    <div>
-      <p>error</p>
-    </div>;
+    return (
+      <div>
+        <p>error</p>
+      </div>
+    );
   }
 };
 
@@ -208,7 +211,7 @@ const DishDetail = (props) => {
         </div>
         <div className="row">
           <div className="col-12 col-md-5 m-1">
-            {renderSelectDish(props.dish)}
+            {RenderSelectDish(props.dish)}
           </div>
           <div className="col-12 col-md-5 m-1">
             <div>
@@ -223,11 +226,8 @@ const DishDetail = (props) => {
         </div>
       </div>
     );
-  }
-  else {
-    return (
-      <div></div>
-    )
+  } else {
+    return <div></div>;
   }
 };
 

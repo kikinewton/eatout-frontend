@@ -6,9 +6,11 @@ const initialState = {
   errMessage: null,
   dishes: [],
 };
-export const Dishes = (action, state = initialState) => {
+
+export const Dishes = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.DISHES_LOADING:
+      console.log('dishes loading ')
       return { ...state, isLoading: true, errMessage: null, dishes: [] };
     case ActionTypes.ADD_DISHES:
       console.log('called the ADD_DISHES action creator')
@@ -20,6 +22,7 @@ export const Dishes = (action, state = initialState) => {
       };
 
     case ActionTypes.DISHES_FAILED:
+      console.log('dishes failed')
       return {
         ...state,
         isLoading: false,

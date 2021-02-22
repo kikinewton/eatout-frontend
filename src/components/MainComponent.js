@@ -8,11 +8,24 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
-import { addComment, fetchDishes,fetchComments, fetchPromos } from "../redux/ActionCreator";
+import {
+  addComment,
+  fetchDishes,
+  fetchComments,
+  fetchPromos,
+} from "../redux/ActionCreator";
 import { useEffect } from "react";
 import { actions } from "react-redux-form";
 
 function Main() {
+
+  useEffect(() => {
+    handleFetchDishes();
+    handleFetchPromos();
+    handleFetchComments();
+  }, []);
+
+  // console.log("called first ======");
   const dishes = useSelector((state) => state.dishes);
   const leaders = useSelector((state) => state.leaders);
   const comments = useSelector((state) => state.comments);
@@ -20,10 +33,7 @@ function Main() {
 
   console.log("main promo", promotions);
   console.log("main comments", comments);
-  console.log("main dishes", dishes);
-
-
-
+  // console.log("main dishes", dishes);
 
   const dispatch = useDispatch();
 
@@ -36,22 +46,16 @@ function Main() {
   };
 
   const handleFetchComments = () => {
-    dispatch(fetchComments())
-  }
+    dispatch(fetchComments());
+  };
 
   const handleFetchPromos = () => {
-    dispatch(fetchPromos())
-  }
+    dispatch(fetchPromos());
+  };
 
   const resetFeedBackForm = () => {
     dispatch(actions.reset("feedback"));
   };
-
-  useEffect(() => {
-    handleFetchDishes();
-    handleFetchPromos();
-    handleFetchComments();
-  }, [dispatch]);
 
   const DishWithId = ({ match }) => {
     return (
@@ -74,7 +78,6 @@ function Main() {
   };
 
   const HomePage = () => {
-
     return (
       <Home
         dish={dishes.dishes.filter((dish) => dish.featured)[0]}
@@ -84,6 +87,8 @@ function Main() {
         promosLoading={promotions.isLoading}
         promosErrMess={promotions.errMessage}
         leader={leaders.filter((leader) => leader.featured)[0]}
+        leaderLoading={leaders.isLoading}
+        leaderErrMess={leaders.errMess}
       />
     );
   };
