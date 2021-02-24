@@ -9,10 +9,8 @@ export const Comments = ( state = initialState,
 ) => {
   switch (action.type) {
     case ActionTypes.ADD_COMMENT:
-      console.log("called the ADD_COMMENTS action creator");
+      console.log("called the ADD_COMMENT action creator");
       let comment = action.payload;
-      comment.id = state.comments.length;
-      comment.date = new Date().toISOString();
       return { ...state, comments: state.comments.concat(comment) };
 
     case ActionTypes.ADD_COMMENTS:

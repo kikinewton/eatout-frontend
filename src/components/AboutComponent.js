@@ -8,23 +8,31 @@ import {
   CardBody,
   Media,
 } from "reactstrap";
+import { baseUrl } from "../shared/baseUrl";
+import { Fade, Stagger } from "react-animation-components";
 
 const RenderLeader = (props) => {
-  const leaders = props.leaders.map((leader) => {
+  const leaders = props.leaders.leaders.map((leader) => {
     return (
+      <Stagger in>
       <div key={leader.id}>
+        <Fade in>
         <Media>
           <Media left href="#" className="mr-3">
-            <Media object src={leader.image} alt={leader.name} />
+            <Media object src={baseUrl + leader.image} alt={leader.name} />
           </Media>
           <Media body>
-              <p><b>{leader.name}</b></p>
-              <p>{leader.designation}</p>
-              <p>{leader.description}</p>
+            <p>
+              <b>{leader.name}</b>
+            </p>
+            <p>{leader.designation}</p>
+            <p>{leader.description}</p>
           </Media>
         </Media>
-        <br/>
+        </Fade>
+        <br />
       </div>
+      </Stagger>
     );
   });
   return leaders;
@@ -112,7 +120,7 @@ export const About = (props) => {
           <h2>Corporate Leadership</h2>
         </div>
         <div className="col-12">
-          <RenderLeader leaders={props.leaders}/>
+          <RenderLeader leaders={props.leaders} />
         </div>
       </div>
     </div>

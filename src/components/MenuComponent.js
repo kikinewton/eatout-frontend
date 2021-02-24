@@ -11,7 +11,6 @@ import { Loading } from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
 
 const RenderMenuItem = ({ dish }) => {
-  console.log(" ====>>>> img url", baseUrl + dish.image)
   if (dish === null || undefined)
     return (
       <div>
